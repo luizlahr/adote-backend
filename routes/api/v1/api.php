@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,6 +13,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::get('/', function () {
+    return response()->json([
+        'Adote' => 'api'
+    ]);
 });
+
+Route::prefix('/auth')->group(function () {
+    Route::post('/', 'V1\Admin\AuthController@store');
+    Route::delete('/', 'V1\Admin\AuthController@destroy')->middleware('auth:api');
+});
+
+Route::middleware(['auth:api', 'scope:access-admin'])->get('/users', 'V1\Admin\UserController@index');
