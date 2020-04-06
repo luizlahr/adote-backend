@@ -15,6 +15,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return response()->json([
-        'Adote' => 'api-only'
+        env('APP_NAME') => 'api-only'
     ]);
 });
